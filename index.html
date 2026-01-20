@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spoiler ReSilence SMP</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(270deg, #000, #1b1b1b, #2c5364, #000);
+  background-size: 600% 600%;
+  animation: bgMove 12s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  overflow: hidden;
+}
+
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* START SCREEN */
+.start {
+  text-align: center;
+  background: rgba(0,0,0,0.55);
+  padding: 35px 45px;
+  border-radius: 18px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+}
+
+.start h1 {
+  font-size: 38px;
+  letter-spacing: 3px;
+}
+
+.start h2 {
+  font-size: 22px;
+  margin-top: 6px;
+  color: #9fdcff;
+}
+
+.start button {
+  margin-top: 25px;
+  padding: 12px 28px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: crimson;
+  color: white;
+}
+
+/* LOADING */
+.loading {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.loading-text {
+  letter-spacing: 3px;
+  font-size: 18px;
+}
+
+.bar {
+  width: 320px;
+  height: 18px;
+  background: #111;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px black;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, crimson, red, crimson);
+  animation: load 4s ease forwards;
+}
+
+@keyframes load {
+  0% { width: 0%; }
+  30% { width: 40%; }
+  60% { width: 70%; }
+  85% { width: 90%; }
+  100% { width: 100%; }
+}
+
+/* JUMPSCARE */
+.jumpscare {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: shake 0.08s infinite;
+}
+
+.jumpscare img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(6px,-6px); }
+  50% { transform: translate(-6px,6px); }
+  75% { transform: translate(6px,6px); }
+  100% { transform: translate(0,0); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- START -->
+<div class="start" id="start">
+  <h1>SPOILER</h1>
+  <h2>ReSilence SMP</h2>
+  <button onclick="startLoading()">BUKA SPOILER</button>
+</div>
+
+<!-- LOADING -->
+<div class="loading" id="loading">
+  <div class="loading-text">LOADING DATA...</div>
+  <div class="bar">
+    <div class="progress"></div>
+  </div>
+</div>
+
+<!-- JUMPSCARE -->
+<div class="jumpscare" id="jumpscare">
+  <img src="jumpscare.png" alt="jumpscare">
+</div>
+
+<audio id="sound" src="jumpscare.mp3"></audio>
+
+<script>
+function startLoading() {
+  document.getElementById("start").style.display = "none";
+  document.getElementById("loading").style.display = "flex";
+
+  setTimeout(() => {
+    showJumpscare();
+  }, 4200); // waktu loading
+}
+
+function showJumpscare() {
+  const js = document.getElementById("jumpscare");
+  const sound = document.getElementById("sound");
+
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  }
+
+  js.style.display = "flex";
+  sound.volume = 1.0;
+  sound.play();
+}
+</script>
+
+</body>
+</html>
