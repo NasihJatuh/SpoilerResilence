@@ -1,119 +1,108 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Spoiler ReSilence SMP</title>
 
 <style>
-/* ===== RESET ===== */
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;overflow:hidden}
 
-/* ===== RETRO FONT (fallback aman) ===== */
 body{
-  font-family: "Press Start 2P", "Courier New", monospace;
-  color:#fff;
+  font-family:"Press Start 2P","Courier New",monospace;
+  color:white;
+  background:radial-gradient(1200px 600px at 50% 120%, #4b1c7a 0%, #243c9f 40%, #070a1a 70%, #02040d 100%);
 }
 
-/* ===== GRADIENT BACKGROUND ===== */
-body{
-  background: radial-gradient(1200px 600px at 50% 120%, #3b1d5f 0%, #1b2a6b 40%, #070a1a 70%, #02040d 100%);
-}
+/* ===== STARS ===== */
+#stars{position:fixed;inset:0;z-index:-1}
 
-/* ===== CANVAS STARS ===== */
-#stars{
-  position:fixed;
-  inset:0;
-  z-index:-1;
+/* ===== TOP TITLE ===== */
+.header{
+  position:absolute;
+  top:30px;
+  width:100%;
+  text-align:center;
+}
+.header h1{
+  font-size:20px;
+  letter-spacing:3px;
+  text-shadow:0 0 10px #c29bff,0 0 25px #6b7cff;
+}
+.header h2{
+  font-size:11px;
+  margin-top:8px;
+  color:#d6dcff;
 }
 
 /* ===== CENTER CARD ===== */
 .card{
-  position:relative;
-  max-width:420px;
-  margin:auto;
+  position:absolute;
   top:50%;
-  transform:translateY(-50%);
-  text-align:center;
-  padding:28px 26px 30px;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(15,15,40,.55);
+  padding:26px 28px;
   border-radius:18px;
-  background:linear-gradient(180deg, rgba(40,30,90,.45), rgba(10,10,25,.55));
-  box-shadow:0 0 40px rgba(140,120,255,.25), inset 0 0 20px rgba(0,0,0,.6);
-  backdrop-filter: blur(6px);
+  text-align:center;
+  backdrop-filter:blur(6px);
+  box-shadow:0 0 35px rgba(140,140,255,.35);
 }
 
-/* ===== TITLE ===== */
-h1{
-  font-size:22px;
-  letter-spacing:2px;
-  text-shadow:0 0 10px #b48cff, 0 0 22px #6a7bff;
-}
-h2{
-  margin-top:10px;
-  font-size:12px;
-  color:#c7ccff;
-  opacity:.9;
-}
-
-/* ===== BUTTON ===== */
+/* BUTTON */
 .btn{
-  margin-top:22px;
-  padding:12px 18px;
+  padding:14px 22px;
+  font-size:12px;
   border-radius:12px;
-  border:1px solid rgba(180,160,255,.5);
-  background:linear-gradient(90deg, #7a4bff, #4f7cff);
-  color:#fff;
+  border:1px solid rgba(180,160,255,.6);
+  background:linear-gradient(90deg,#7a4bff,#4f7cff);
+  color:white;
   cursor:pointer;
-  box-shadow:0 0 18px rgba(120,140,255,.6);
-  transition:transform .15s, box-shadow .15s;
-}
-.btn:hover{
-  transform:translateY(-1px) scale(1.03);
-  box-shadow:0 0 28px rgba(160,180,255,.9);
+  box-shadow:0 0 20px rgba(140,160,255,.8);
 }
 
 /* ===== LOADING ===== */
-.loading{
-  display:none;
-  margin-top:22px;
-}
-.loading-text{
-  font-size:10px;
-  letter-spacing:2px;
-  margin-bottom:12px;
-  opacity:.9;
-}
+.loading{display:none;margin-top:20px}
+.percent{font-size:10px;margin-bottom:10px}
 .bar{
+  width:260px;
   height:14px;
-  border-radius:999px;
-  background:rgba(0,0,0,.6);
+  background:#111;
+  border-radius:20px;
   overflow:hidden;
-  box-shadow: inset 0 0 10px rgba(0,0,0,.8), 0 0 18px rgba(120,140,255,.4);
+  box-shadow:inset 0 0 10px black;
 }
 .progress{
   height:100%;
   width:0%;
-  background:linear-gradient(90deg, #b48cff, #6a7bff, #b48cff);
-  box-shadow:0 0 16px rgba(160,180,255,.9);
-  animation:load 4.2s cubic-bezier(.2,.8,.2,1) forwards;
+  background:linear-gradient(90deg,#c29bff,#6b7cff,#c29bff);
+  box-shadow:0 0 15px rgba(170,190,255,.9);
 }
-@keyframes load{
-  0%{width:0%}
-  30%{width:38%}
-  55%{width:62%}
-  80%{width:88%}
-  100%{width:100%}
+.note{
+  margin-top:10px;
+  font-size:9px;
+  opacity:.8;
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  position:absolute;
+  bottom:20px;
+  width:100%;
+  text-align:center;
+  font-size:9px;
+  opacity:.6;
 }
 
 /* ===== JUMPSCARE ===== */
 .jumpscare{
   position:fixed;
   inset:0;
-  background:#000;
+  background:black;
   display:none;
   z-index:9999;
-  animation:shake .08s infinite;
+  animation:shake .15s infinite;
 }
 .jumpscare img{
   width:100%;
@@ -122,9 +111,9 @@ h2{
 }
 @keyframes shake{
   0%{transform:translate(0,0)}
-  25%{transform:translate(6px,-6px)}
-  50%{transform:translate(-6px,6px)}
-  75%{transform:translate(6px,6px)}
+  25%{transform:translate(2px,-2px)}
+  50%{transform:translate(-2px,2px)}
+  75%{transform:translate(2px,2px)}
   100%{transform:translate(0,0)}
 }
 </style>
@@ -134,86 +123,91 @@ h2{
 
 <canvas id="stars"></canvas>
 
-<div class="card" id="card">
+<div class="header">
   <h1>SPOILER</h1>
   <h2>ReSilence SMP</h2>
+</div>
 
-  <button class="btn" id="startBtn">BUKA SPOILER</button>
+<div class="card">
+  <button class="btn" id="startBtn">Lihat Spoiler</button>
 
   <div class="loading" id="loading">
-    <div class="loading-text">LOADING DATA...</div>
-    <div class="bar"><div class="progress"></div></div>
+    <div class="percent" id="percent">0%</div>
+    <div class="bar"><div class="progress" id="progress"></div></div>
+    <div class="note">
+      Sehabis loading penuh langsung diarahkan ke web utama
+    </div>
   </div>
 </div>
 
-<div class="jumpscare" id="jumpscare">
-  <!-- GANTI GAMBAR DI SINI -->
-  <img src="jumpscare.png" alt="jumpscare">
+<div class="footer">
+  Kalau gameplay nya jadi kurang menarik jangan salahin admin
 </div>
 
-<!-- GANTI SUARA DI SINI -->
+<div class="jumpscare" id="jumpscare">
+  <img src="jumpscare.png">
+</div>
+
 <audio id="sound" src="jumpscare.mp3"></audio>
 
 <script>
-/* ===== STAR FALL CANVAS ===== */
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
+/* ===== FULLSCREEN ===== */
+function goFullscreen(){
+  const d=document.documentElement;
+  if(d.requestFullscreen) d.requestFullscreen().catch(()=>{});
+}
+
+/* ===== STARS ===== */
+const c=document.getElementById("stars"),ctx=c.getContext("2d");
 let w,h,stars=[];
-function resize(){
-  w=canvas.width=window.innerWidth;
-  h=canvas.height=window.innerHeight;
-}
-window.addEventListener('resize',resize); resize();
-
-function spawnStar(){
-  stars.push({
-    x: Math.random()*w,
-    y: -20,
-    vx: -2 - Math.random()*2,
-    vy: 4 + Math.random()*4,
-    r: Math.random()*1.5+0.5,
-    a: Math.random()*0.5+0.5
-  });
-}
-for(let i=0;i<120;i++) spawnStar();
-
+function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+window.onresize=resize;resize();
+for(let i=0;i<120;i++)stars.push({x:Math.random()*w,y:Math.random()*h,v:2+Math.random()*3});
 function draw(){
   ctx.clearRect(0,0,w,h);
-  ctx.fillStyle="#fff";
   stars.forEach(s=>{
-    ctx.globalAlpha=s.a;
-    ctx.beginPath();
-    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-    ctx.fill();
-    s.x+=s.vx; s.y+=s.vy;
-    if(s.y>h+20 || s.x<-20){
-      s.x=Math.random()*w; s.y=-20;
-    }
+    ctx.fillStyle="rgba(255,255,255,.8)";
+    ctx.fillRect(s.x,s.y,2,2);
+    s.x-=s.v; s.y+=s.v;
+    if(s.y>h||s.x<0){s.x=Math.random()*w;s.y=0;}
   });
   requestAnimationFrame(draw);
 }
 draw();
 
 /* ===== FLOW ===== */
-const startBtn=document.getElementById('startBtn');
-const loading=document.getElementById('loading');
-const card=document.getElementById('card');
+const btn=document.getElementById("startBtn");
+const loading=document.getElementById("loading");
+const bar=document.getElementById("progress");
+const percent=document.getElementById("percent");
 
-startBtn.onclick=()=>{
-  startBtn.style.display='none';
-  loading.style.display='block';
-  setTimeout(showJumpscare,4300);
+btn.onclick=()=>{
+  goFullscreen();
+  btn.style.display="none";
+  loading.style.display="block";
+
+  let p=0;
+  const interval=setInterval(()=>{
+    p++;
+    bar.style.width=p+"%";
+    percent.textContent=p+"%";
+    if(p>=100){
+      clearInterval(interval);
+      triggerJumpscare();
+    }
+  },30);
 };
 
-function showJumpscare(){
-  const js=document.getElementById('jumpscare');
-  const sound=document.getElementById('sound');
-  if(document.documentElement.requestFullscreen){
-    document.documentElement.requestFullscreen().catch(()=>{});
-  }
-  js.style.display='block';
-  sound.volume=1.0;
+function triggerJumpscare(){
+  const sound=document.getElementById("sound");
+  const js=document.getElementById("jumpscare");
+
+  sound.volume=1;
   sound.play();
+
+  setTimeout(()=>{
+    js.style.display="block";
+  },300);
 }
 </script>
 
