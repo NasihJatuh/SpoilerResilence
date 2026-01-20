@@ -1,180 +1,218 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Spoiler ReSilence SMP</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+/* ===== RESET ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden}
+
+/* ===== RETRO FONT (fallback aman) ===== */
+body{
+  font-family: "Press Start 2P", "Courier New", monospace;
+  color:#fff;
 }
 
-body {
-  height: 100vh;
-  background: linear-gradient(270deg, #000, #1b1b1b, #2c5364, #000);
-  background-size: 600% 600%;
-  animation: bgMove 12s ease infinite;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  overflow: hidden;
+/* ===== GRADIENT BACKGROUND ===== */
+body{
+  background: radial-gradient(1200px 600px at 50% 120%, #3b1d5f 0%, #1b2a6b 40%, #070a1a 70%, #02040d 100%);
 }
 
-@keyframes bgMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* ===== CANVAS STARS ===== */
+#stars{
+  position:fixed;
+  inset:0;
+  z-index:-1;
 }
 
-/* START SCREEN */
-.start {
-  text-align: center;
-  background: rgba(0,0,0,0.55);
-  padding: 35px 45px;
-  border-radius: 18px;
+/* ===== CENTER CARD ===== */
+.card{
+  position:relative;
+  max-width:420px;
+  margin:auto;
+  top:50%;
+  transform:translateY(-50%);
+  text-align:center;
+  padding:28px 26px 30px;
+  border-radius:18px;
+  background:linear-gradient(180deg, rgba(40,30,90,.45), rgba(10,10,25,.55));
+  box-shadow:0 0 40px rgba(140,120,255,.25), inset 0 0 20px rgba(0,0,0,.6);
   backdrop-filter: blur(6px);
-  box-shadow: 0 0 30px rgba(0,0,0,0.7);
 }
 
-.start h1 {
-  font-size: 38px;
-  letter-spacing: 3px;
+/* ===== TITLE ===== */
+h1{
+  font-size:22px;
+  letter-spacing:2px;
+  text-shadow:0 0 10px #b48cff, 0 0 22px #6a7bff;
+}
+h2{
+  margin-top:10px;
+  font-size:12px;
+  color:#c7ccff;
+  opacity:.9;
 }
 
-.start h2 {
-  font-size: 22px;
-  margin-top: 6px;
-  color: #9fdcff;
+/* ===== BUTTON ===== */
+.btn{
+  margin-top:22px;
+  padding:12px 18px;
+  border-radius:12px;
+  border:1px solid rgba(180,160,255,.5);
+  background:linear-gradient(90deg, #7a4bff, #4f7cff);
+  color:#fff;
+  cursor:pointer;
+  box-shadow:0 0 18px rgba(120,140,255,.6);
+  transition:transform .15s, box-shadow .15s;
+}
+.btn:hover{
+  transform:translateY(-1px) scale(1.03);
+  box-shadow:0 0 28px rgba(160,180,255,.9);
 }
 
-.start button {
-  margin-top: 25px;
-  padding: 12px 28px;
-  font-size: 18px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: crimson;
-  color: white;
+/* ===== LOADING ===== */
+.loading{
+  display:none;
+  margin-top:22px;
+}
+.loading-text{
+  font-size:10px;
+  letter-spacing:2px;
+  margin-bottom:12px;
+  opacity:.9;
+}
+.bar{
+  height:14px;
+  border-radius:999px;
+  background:rgba(0,0,0,.6);
+  overflow:hidden;
+  box-shadow: inset 0 0 10px rgba(0,0,0,.8), 0 0 18px rgba(120,140,255,.4);
+}
+.progress{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg, #b48cff, #6a7bff, #b48cff);
+  box-shadow:0 0 16px rgba(160,180,255,.9);
+  animation:load 4.2s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes load{
+  0%{width:0%}
+  30%{width:38%}
+  55%{width:62%}
+  80%{width:88%}
+  100%{width:100%}
 }
 
-/* LOADING */
-.loading {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+/* ===== JUMPSCARE ===== */
+.jumpscare{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  z-index:9999;
+  animation:shake .08s infinite;
 }
-
-.loading-text {
-  letter-spacing: 3px;
-  font-size: 18px;
+.jumpscare img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
-
-.bar {
-  width: 320px;
-  height: 18px;
-  background: #111;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: inset 0 0 10px black;
-}
-
-.progress {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, crimson, red, crimson);
-  animation: load 4s ease forwards;
-}
-
-@keyframes load {
-  0% { width: 0%; }
-  30% { width: 40%; }
-  60% { width: 70%; }
-  85% { width: 90%; }
-  100% { width: 100%; }
-}
-
-/* JUMPSCARE */
-.jumpscare {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: black;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  animation: shake 0.08s infinite;
-}
-
-.jumpscare img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-@keyframes shake {
-  0% { transform: translate(0,0); }
-  25% { transform: translate(6px,-6px); }
-  50% { transform: translate(-6px,6px); }
-  75% { transform: translate(6px,6px); }
-  100% { transform: translate(0,0); }
+@keyframes shake{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(6px,-6px)}
+  50%{transform:translate(-6px,6px)}
+  75%{transform:translate(6px,6px)}
+  100%{transform:translate(0,0)}
 }
 </style>
 </head>
 
 <body>
 
-<!-- START -->
-<div class="start" id="start">
+<canvas id="stars"></canvas>
+
+<div class="card" id="card">
   <h1>SPOILER</h1>
   <h2>ReSilence SMP</h2>
-  <button onclick="startLoading()">BUKA SPOILER</button>
-</div>
 
-<!-- LOADING -->
-<div class="loading" id="loading">
-  <div class="loading-text">LOADING DATA...</div>
-  <div class="bar">
-    <div class="progress"></div>
+  <button class="btn" id="startBtn">BUKA SPOILER</button>
+
+  <div class="loading" id="loading">
+    <div class="loading-text">LOADING DATA...</div>
+    <div class="bar"><div class="progress"></div></div>
   </div>
 </div>
 
-<!-- JUMPSCARE -->
 <div class="jumpscare" id="jumpscare">
+  <!-- GANTI GAMBAR DI SINI -->
   <img src="jumpscare.png" alt="jumpscare">
 </div>
 
+<!-- GANTI SUARA DI SINI -->
 <audio id="sound" src="jumpscare.mp3"></audio>
 
 <script>
-function startLoading() {
-  document.getElementById("start").style.display = "none";
-  document.getElementById("loading").style.display = "flex";
-
-  setTimeout(() => {
-    showJumpscare();
-  }, 4200); // waktu loading
+/* ===== STAR FALL CANVAS ===== */
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+let w,h,stars=[];
+function resize(){
+  w=canvas.width=window.innerWidth;
+  h=canvas.height=window.innerHeight;
 }
+window.addEventListener('resize',resize); resize();
 
-function showJumpscare() {
-  const js = document.getElementById("jumpscare");
-  const sound = document.getElementById("sound");
+function spawnStar(){
+  stars.push({
+    x: Math.random()*w,
+    y: -20,
+    vx: -2 - Math.random()*2,
+    vy: 4 + Math.random()*4,
+    r: Math.random()*1.5+0.5,
+    a: Math.random()*0.5+0.5
+  });
+}
+for(let i=0;i<120;i++) spawnStar();
 
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen();
+function draw(){
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle="#fff";
+  stars.forEach(s=>{
+    ctx.globalAlpha=s.a;
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fill();
+    s.x+=s.vx; s.y+=s.vy;
+    if(s.y>h+20 || s.x<-20){
+      s.x=Math.random()*w; s.y=-20;
+    }
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* ===== FLOW ===== */
+const startBtn=document.getElementById('startBtn');
+const loading=document.getElementById('loading');
+const card=document.getElementById('card');
+
+startBtn.onclick=()=>{
+  startBtn.style.display='none';
+  loading.style.display='block';
+  setTimeout(showJumpscare,4300);
+};
+
+function showJumpscare(){
+  const js=document.getElementById('jumpscare');
+  const sound=document.getElementById('sound');
+  if(document.documentElement.requestFullscreen){
+    document.documentElement.requestFullscreen().catch(()=>{});
   }
-
-  js.style.display = "flex";
-  sound.volume = 1.0;
+  js.style.display='block';
+  sound.volume=1.0;
   sound.play();
 }
 </script>
